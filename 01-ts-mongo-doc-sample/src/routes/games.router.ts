@@ -13,9 +13,8 @@ gamesRouter.get("/", async (_req: Request, res: Response) => {
     const games = await collections.games!.find({}).toArray();
 
     res.status(200).send(games);
-    // FIXME: add type to error
-  } catch (error: any) {
-    res.status(500).send(error.message);
+  } catch (error) {
+    res.status(500).send((error as Error).message);
   }
 });
 
@@ -32,7 +31,6 @@ gamesRouter.get("/:id", async (req: Request, res: Response) => {
     if (game) {
       res.status(200).send(game);
     }
-    // FIXME: add type to error
   } catch (error) {
     res
       .status(404)
@@ -51,10 +49,8 @@ gamesRouter.post("/", async (req: Request, res: Response) => {
           .status(201)
           .send(`Successfully created a new game with id ${result.insertedId}`)
       : res.status(500).send("Failed to create a new game.");
-    // FIXME: add type to error
-  } catch (error: any) {
-    console.error(error);
-    res.status(400).send(error.message);
+  } catch (error) {
+    res.status(400).send((error as Error).message);
   }
 });
 
@@ -73,9 +69,8 @@ gamesRouter.put("/:id", async (req: Request, res: Response) => {
     result
       ? res.status(200).send(`Successfully updated game with id ${id}`)
       : res.status(304).send(`Game with id: ${id} not updated`);
-  } catch (error: any) {
-    console.error(error.message);
-    res.status(400).send(error.message);
+  } catch (error) {
+    res.status(400).send((error as Error).message);
   }
 });
 
@@ -93,9 +88,7 @@ gamesRouter.delete("/:id", async (req: Request, res: Response) => {
     } else if (!result.deletedCount) {
       res.status(404).send(`Game with id ${id} does not exist`);
     }
-    // FIXME: add type to error
-  } catch (error: any) {
-    console.error(error.message);
-    res.status(400).send(error.message);
+  } catch (error) {
+    res.status(400).send((error as Error).message);
   }
 });
