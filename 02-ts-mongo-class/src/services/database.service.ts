@@ -25,14 +25,12 @@ class DatabaseService {
 
     await this.applySchemaValidation(db);
 
-    const gamesCollection = db.collection<Game>(
+    this.collections.games = db.collection<Game>(
       process.env.GAMES_COLLECTION_NAME!
     );
 
-    this.collections.games = gamesCollection;
-
     console.log(
-      `Successfully connected to database: ${db.databaseName} and collection: ${gamesCollection.collectionName}`
+      `Successfully connected to database: ${db.databaseName} and collection: ${this.collections.games.collectionName}`
     );
   }
 
