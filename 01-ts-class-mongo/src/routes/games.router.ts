@@ -9,9 +9,11 @@ gamesRouter.use(express.json());
 gamesRouter.get("/", async (_req: Request, res: Response) => {
   try {
     // Call find with an empty filter object, meaning it returns all documents in the collection. Saves as Game array to take advantage of types
+    // FIXME: add ! to games, ok?
     const games = await collections.games!.find({}).toArray();
 
     res.status(200).send(games);
+    // FIXME: add type to error
   } catch (error: any) {
     res.status(500).send(error.message);
   }
@@ -24,11 +26,13 @@ gamesRouter.get("/:id", async (req: Request, res: Response) => {
   try {
     // _id in MongoDB is an objectID type so we need to find our specific document by querying
     const query = { _id: new ObjectId(id) };
+    // FIXME: add ! to games, ok?
     const game = await collections.games!.findOne(query);
 
     if (game) {
       res.status(200).send(game);
     }
+    // FIXME: add type to error
   } catch (error) {
     res
       .status(404)
@@ -39,6 +43,7 @@ gamesRouter.get("/:id", async (req: Request, res: Response) => {
 gamesRouter.post("/", async (req: Request, res: Response) => {
   try {
     const newGame = req.body;
+    // FIXME: add ! to games, ok?
     const result = await collections.games!.insertOne(newGame);
 
     result
@@ -46,6 +51,7 @@ gamesRouter.post("/", async (req: Request, res: Response) => {
           .status(201)
           .send(`Successfully created a new game with id ${result.insertedId}`)
       : res.status(500).send("Failed to create a new game.");
+    // FIXME: add type to error
   } catch (error: any) {
     console.error(error);
     res.status(400).send(error.message);
@@ -59,6 +65,7 @@ gamesRouter.put("/:id", async (req: Request, res: Response) => {
     const updatedGame = req.body;
     const query = { _id: new ObjectId(id) };
     // $set adds or updates all fields
+    // FIXME: add ! to games, ok?
     const result = await collections.games!.updateOne(query, {
       $set: updatedGame,
     });
@@ -86,6 +93,7 @@ gamesRouter.delete("/:id", async (req: Request, res: Response) => {
     } else if (!result.deletedCount) {
       res.status(404).send(`Game with id ${id} does not exist`);
     }
+    // FIXME: add type to error
   } catch (error: any) {
     console.error(error.message);
     res.status(400).send(error.message);
