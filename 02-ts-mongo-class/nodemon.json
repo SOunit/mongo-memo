@@ -1,0 +1,7 @@
+{
+  "env": {
+    "DB_CONN_STRING": "mongodb+srv://the_mern_stack_user:YuTLjrQaTST7K2bT@cluster0.r27pb.mongodb.net/?retryWrites=true&w=majority",
+    "DB_NAME": "gamesDB",
+    "GAMES_COLLECTION_NAME": "games"
+  }
+}
