@@ -4,10 +4,11 @@ import Game from "../models/game";
 
 class DatabaseService {
   private static instance: DatabaseService;
-  collections: { games?: mongoDB.Collection<Game> } = {};
+  public collections: { games?: mongoDB.Collection<Game> } = {};
 
   private constructor() {}
 
+  // https://refactoring.guru/design-patterns/singleton/typescript/example
   public static getInstance(): DatabaseService {
     if (!DatabaseService.instance) {
       DatabaseService.instance = new DatabaseService();
