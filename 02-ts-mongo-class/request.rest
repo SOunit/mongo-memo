@@ -1,0 +1,38 @@
+GET http://localhost:8080/games
+
+
+###
+
+GET http://localhost:8080/games/62b12929b8abff01864484a3
+
+
+###
+
+POST http://localhost:8080/games
+Content-Type: application/json
+
+{
+  "name": "test name",
+  "price": 40,
+  "category": "test category"
+}
+
+### 
+
+PUT http://localhost:8080/games/62b12929b8abff01864484a3
+Content-Type: application/json
+
+{
+  "name": "test name update",
+  "price": 80,
+  "category": "test category update"
+}
+
+### 
+
+DELETE http://localhost:8080/games/62b12929b8abff01864484a3
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmFjayIsImlhdCI6MTY1NTc1NzgyM30.T9eHC93S3DeXd-K1fFvf61i_hqCRGZrgDrBCHL4FGlg"
+}
