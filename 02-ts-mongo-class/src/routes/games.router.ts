@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { ObjectId } from "mongodb";
-import { collections } from "../services/database.service";
+import DatabaseService from "../services/database.service";
 
 export const gamesRouter = express.Router();
 
@@ -10,7 +10,9 @@ gamesRouter.get("/", async (_req: Request, res: Response) => {
   try {
     // Call find with an empty filter object, meaning it returns all documents in the collection. Saves as Game array to take advantage of types
     // FIXME: add ! to games, ok?
-    const games = await collections.games!.find({}).toArray();
+    const games = await DatabaseService.getInstance()
+      .collections.games!.find({})
+      .toArray();
 
     res.status(200).send(games);
     // FIXME: add type to error
@@ -27,7 +29,9 @@ gamesRouter.get("/:id", async (req: Request, res: Response) => {
     // _id in MongoDB is an objectID type so we need to find our specific document by querying
     const query = { _id: new ObjectId(id) };
     // FIXME: add ! to games, ok?
-    const game = await collections.games!.findOne(query);
+    const game = await DatabaseService.getInstance().collections.games!.findOne(
+      query
+    );
 
     if (game) {
       res.status(200).send(game);
@@ -44,7 +48,8 @@ gamesRouter.post("/", async (req: Request, res: Response) => {
   try {
     const newGame = req.body;
     // FIXME: add ! to games, ok?
-    const result = await collections.games!.insertOne(newGame);
+    const result =
+      await DatabaseService.getInstance().collections.games!.insertOne(newGame);
 
     result
       ? res
@@ -66,9 +71,10 @@ gamesRouter.put("/:id", async (req: Request, res: Response) => {
     const query = { _id: new ObjectId(id) };
     // $set adds or updates all fields
     // FIXME: add ! to games, ok?
-    const result = await collections.games!.updateOne(query, {
-      $set: updatedGame,
-    });
+    const result =
+      await DatabaseService.getInstance().collections.games!.updateOne(query, {
+        $set: updatedGame,
+      });
 
     result
       ? res.status(200).send(`Successfully updated game with id ${id}`)
@@ -84,7 +90,8 @@ gamesRouter.delete("/:id", async (req: Request, res: Response) => {
 
   try {
     const query = { _id: new ObjectId(id) };
-    const result = await collections.games!.deleteOne(query);
+    const result =
+      await DatabaseService.getInstance().collections.games!.deleteOne(query);
 
     if (result && result.deletedCount) {
       res.status(202).send(`Successfully removed game with id ${id}`);
