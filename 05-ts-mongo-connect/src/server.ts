@@ -1,5 +1,5 @@
-const express = require("express");
-const db = require("./db");
+import express from "express";
+import * as db from "./db";
 const userRouter = require("./routes/userRouter");
 
 const app = express();

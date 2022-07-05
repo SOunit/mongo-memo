@@ -1,5 +1,7 @@
-const userRouter = require("express").Router();
-const userController = require("../controllers/userController");
+import express from "express";
+import userController from "../controllers/userController";
+
+const userRouter = express.Router();
 
 userRouter.get("/", userController.getUsers);
 userRouter.post("/", userController.createUser);

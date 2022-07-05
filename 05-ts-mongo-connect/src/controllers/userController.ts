@@ -1,9 +1,16 @@
-const { ObjectId } = require("mongodb");
-const db = require("../db");
+import { Request, Response } from "express";
+import { ObjectId } from "mongodb";
+import * as db from "../db";
+
+type User = {
+  name: string;
+  age: number;
+};
 
 const userController = {
-  getUsers: (req, res) => {
-    const users = [];
+  getUsers: (req: Request, res: Response) => {
+    const users: User[] = [];
+
     db.getDb()
       .db()
       .collection("users")
@@ -11,7 +18,8 @@ const userController = {
       .find()
       // iterate cursor with forEach
       .forEach((userDoc) => {
-        users.push(userDoc);
+        // FIXME
+        users.push(userDoc as any);
       })
       .then((result) => {
         console.log("result", result);
@@ -23,7 +31,7 @@ const userController = {
       });
   },
 
-  getUser: (req, res) => {
+  getUser: (req: Request, res: Response) => {
     const { userId } = req.params;
 
     db.getDb()
@@ -39,7 +47,7 @@ const userController = {
       });
   },
 
-  createUser: (req, res) => {
+  createUser: (req: Request, res: Response) => {
     const newUser = req.body;
 
     db.getDb()
@@ -56,7 +64,7 @@ const userController = {
       });
   },
 
-  updateUser: (req, res) => {
+  updateUser: (req: Request, res: Response) => {
     const updatedUser = req.body;
     const { userId } = req.params;
 
@@ -72,7 +80,7 @@ const userController = {
       });
   },
 
-  deleteUser: (req, res) => {
+  deleteUser: (req: Request, res: Response) => {
     const { userId } = req.params;
 
     db.getDb()
@@ -88,4 +96,4 @@ const userController = {
   },
 };
 
-module.exports = userController;
+export default userController;
