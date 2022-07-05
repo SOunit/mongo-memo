@@ -1,4 +1,4 @@
-import mongodb from "mongodb";
+import * as mongodb from "mongodb";
 
 const MongoClient = mongodb.MongoClient;
 const mongoDbUrl = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.r27pb.mongodb.net/${process.env.MONGO_DB_NAME}?retryWrites=true&w=majority`;
