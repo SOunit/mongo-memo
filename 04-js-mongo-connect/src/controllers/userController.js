@@ -4,6 +4,7 @@ const userController = {
   getUsers: (req, res) => {
     const users = [];
     db.getDb()
+      .db()
       .collection("users")
       // this returns cursor
       .find()
@@ -25,6 +26,7 @@ const userController = {
     const newUser = req.body;
 
     db.getDb()
+      .db()
       .collection("users")
       .insertOne(newUser)
       .then((result) => {
